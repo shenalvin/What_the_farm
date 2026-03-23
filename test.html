@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧農場監控面板</title>
+    <!-- 連接 CSS -->
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+    <div class="container">
+        <div class="monitor-panel">
+            <div class="time-header">現在時間：<span id="now-time">00:00:00</span></div>
+            
+            <div>
+                <div class="gauge-box" id="gauge-soil">
+                    <div class="gauge-val" id="val-soil">--%</div>
+                </div>
+                <p>即時土壤濕度</p>
+            </div>
+
+            <div>
+                <div class="gauge-box" id="gauge-temp">
+                    <div class="gauge-val"><span id="val-temp">--</span>°C</div>
+                </div>
+                <p>環境氣溫</p>
+            </div>
+            
+            <div class="region-box">
+                <div class="region-title">🌦️ 未來七日平均雨量預測 (mm)</div>
+                <div class="region-data">
+                    <div>北:<span class="region-val" id="val-p0">--</span></div>
+                    <div>中:<span class="region-val" id="val-p1">--</span></div>
+                    <div>南:<span class="region-val" id="val-p2">--</span></div>
+                    <div>東:<span class="region-val" id="val-p3">--</span></div>
+                </div>
+            </div>
+
+            <div class="status-container">
+                <div class="status-item">
+                    <div id="light-ball" class="status-ball">照明</div>
+                    <button class="ctrl-btn" onmousedown="f('light','on')" onmouseup="f('light','off')">點亮</button>
+                </div>
+                <div class="status-item">
+                    <div id="water-ball" class="status-ball">灌溉</div>
+                    <button class="ctrl-btn" onmousedown="f('water','on')" onmouseup="f('water','off')">澆水</button>
+                </div>
+            </div>
+        </div>
+
+        <form action="/update" method="POST" class="setting-panel">
+            <div class="control-box">
+                <h2>自動灌溉排程</h2>
+                <div class="input-group">時間: <input type="time" name="wT" value="03:26"></div>
+                <div class="input-group">持續: <input type="number" name="wD" value="1"> 分鐘</div>
+            </div>
+            <button type="submit" class="save-btn">儲存設定</button>
+        </form>
+    </div>
+    <!-- 連接 JavaScript -->
+    <script src="test.js"></script>
+</body>
+</html>
