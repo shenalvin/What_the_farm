@@ -1,6 +1,4 @@
 let CONFIG = {
-    cwa_api_key: "CWA-5246C051-E367-4276-A316-6B73776DA2FD", // 建議放在 config.json，或直接填入測試
-    // esp32_ip: "http://192.168.1.100" // 你的 ESP32 IP
 };
 
 // 1. 每秒更新時間
