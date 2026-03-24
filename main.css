@@ -1,162 +1,54 @@
-/* style.css */
-
-body { 
-    font-family: 'Noto Sans TC', sans-serif; 
-    background: #f4f7f6; 
-    margin: 0; 
-    padding: 20px; 
-    display: flex; 
-    justify-content: center; 
+:root {
+    --primary: #2c3e50;
+    --danger: #e74c3c;
+    --safe: #27ae60;
+    --warning: #f39c12;
 }
 
-/* 顯示格式設定，比例不鎖死 */
-.container { 
-    /*
-    width: 95%; 
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex; 
-    flex-warp:warp;
-    */
-    width: 900px; 
-    display: grid; 
-    grid-template-columns: 1.5fr 1fr; 
-    gap: 20px; 
+body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
+
+/* 導航欄 */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--primary); color: white; padding: 1rem 2rem;
+    position: sticky; top: 0; z-index: 1000;
 }
 
-/* 左側面板 - 深色主題 */
-.monitor-panel { 
-    background: #1e293b; 
-    color: white; 
-    border-radius: 20px; 
-    padding: 30px; 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    text-align: center; 
-    gap: 20px; 
+.nav-links { list-style: none; display: flex; gap: 20px; }
+.nav-links a { color: white; text-decoration: none; font-weight: bold; }
+.menu-icon { display: none; font-size: 24px; cursor: pointer; }
+
+/* 抬頭 */
+.hero { background: #34495e; color: white; text-align: center; padding: 40px 20px; }
+
+/* 緊急告警 */
+.emergency-bar { background: var(--danger); color: white; padding: 10px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+
+/* 網格系統 */
+.weather-grid, .admin-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; padding: 20px;
 }
 
-.time-header { 
-    grid-column: span 2; 
-    text-align: left; 
-    font-size: 20px; 
-    color: #38bdf8; 
-    font-weight: bold; 
-    margin-bottom: 10px; 
-}
+.card, .control-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
 
-/* 圓形儀表板邏輯 */
-.gauge-box { 
-    width: 140px; 
-    height: 140px; 
-    border-radius: 50%; 
-    background: #334155; 
-    margin: auto; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    position: relative; 
-}
+/* 顏色區分樣式 */
+.status-high { border-left: 10px solid var(--danger); }
+.status-normal { border-left: 10px solid var(--safe); }
 
-.gauge-box::before { 
-    content: ""; 
-    position: absolute; 
-    inset: 12px; 
-    background: #1e293b; 
-    border-radius: 50%; 
-}
+/* 對話框 (Modal) */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+.modal-content { background: white; width: 80%; max-width: 400px; margin: 15% auto; padding: 20px; border-radius: 10px; text-align: center; }
+.btn-mute { background: #95a5a6; color: white; }
 
-.gauge-val { 
-    position: relative; 
-    z-index: 1; 
-    font-size: 32px; 
-    font-weight: bold; 
-}
+/* 隱藏/顯示分頁 */
+.page { display: none; padding: 20px; }
+.active { display: block; }
 
-/* 區域數據樣式 */
-.region-box { 
-    grid-column: span 2; 
-    background: #334155; 
-    border-radius: 10px; 
-    padding: 15px; 
-    margin-top: 10px; 
-}
-
-.region-title { 
-    color: #cbd5e1; 
-    margin-bottom: 10px; 
-}
-
-.region-data { 
-    display: flex; 
-    justify-content: space-around; 
-}
-
-.region-val { 
-    font-size: 22px; 
-    font-weight: bold; 
-    color: #fbbf24; 
-}
-
-/* 控制狀態球 */
-.status-container {
-    grid-column: span 2; 
-    display: flex; 
-    justify-content: space-around; 
-}
-
-.status-ball { 
-    width: 90px; 
-    height: 90px; 
-    border-radius: 50%; 
-    background: #475569; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: 0.4s; 
-    margin-bottom: 10px;
-}
-
-.active { 
-    background: #3b82f6 !important; 
-    box-shadow: 0 0 15px #3b82f6; 
-}
-
-/* 右側設定面板 - 淺色主題 */
-.setting-panel { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-}
-
-.control-box { 
-    border: 2.5px solid #3b82f6; 
-    border-radius: 15px; 
-    padding: 20px; 
-    background: white; 
-}
-
-.input-group { 
-    margin: 15px 0; 
-}
-
-input { 
-    border: 1px solid #ccc; 
-    font-size: 18px; 
-    font-weight: bold; 
-    color: #3b82f6; 
-    padding: 5px; 
-    border-radius: 5px; 
-}
-
-.save-btn { 
-    background: #3b82f6; 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 8px; 
-    width: 100%; 
-    font-size: 18px; 
-    cursor: pointer; 
-    font-weight: bold;
+/* 手機版適配 */
+@media (max-width: 768px) {
+    .navbar ul { display: none; flex-direction: column; width: 100%; position: absolute; top: 60px; left: 0; background: var(--primary); }
+    .navbar ul.show { display: flex; }
+    .menu-icon { display: block; }
+    .weather-grid, .admin-grid { grid-template-columns: 1fr; } /* 強制上下疊加 */
 }
