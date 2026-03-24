@@ -1,5 +1,4 @@
-/* style.css */
-
+/* --- 1. 基礎設定 (不影響佈局) --- */
 body { 
     font-family: 'Noto Sans TC', sans-serif; 
     background: #f4f7f6; 
@@ -9,25 +8,19 @@ body {
     justify-content: center; 
 }
 
-/* 顯示格式設定，比例不鎖死 */
+/* --- 2. 電腦版佈局 (維持你原本的樣子) --- */
 .container { 
-    /*
-    width: 95%; 
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex; 
-    flex-warp:warp;
-    */
-    width: 900px; 
-    display: grid; 
-    grid-template-columns: 1.5fr 1fr; 
+    flex-direction: row; /* 強制橫向並排 */
     gap: 20px; 
+    align-items: flex-start;
+    /* 這裡不要寫死寬度，讓它在電腦上自然伸展 */
+    width: auto; 
 }
 
-
-
-/* 左側面板 - 深色主題 */
+/* 左側面板 - 固定電腦版寬度 */
 .monitor-panel { 
+    width: 450px; /* 電腦版固定這個寬度，畫面就不會跑掉 */
     background: #1e293b; 
     color: white; 
     border-radius: 20px; 
@@ -38,7 +31,41 @@ body {
     gap: 20px; 
 }
 
+/* 右側面板 - 固定電腦版寬度 */
+.setting-panel { 
+    width: 350px; /* 電腦版固定這個寬度 */
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
 
+/* --- 3. 手機版變動規則 (只有手機會觸發) --- */
+@media (max-width: 850px) {
+    body {
+        padding: 10px;
+    }
+
+    .container { 
+        flex-direction: column; /* 手機版才改為上下堆疊 */
+        align-items: center;
+        width: 100%;
+    }
+
+    .monitor-panel, .setting-panel {
+        width: 95%; /* 手機版寬度隨螢幕縮放 */
+        max-width: none;
+        padding: 20px 15px;
+    }
+
+    /* 手機太窄時，圓圈儀表板改為上下排，防止擠壓變形 */
+    @media (max-width: 400px) {
+        .monitor-panel {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+/* --- 4. 功能性樣式 (兩邊通用，不影響大結構) --- */
 
 .time-header { 
     grid-column: span 2; 
@@ -49,9 +76,6 @@ body {
     margin-bottom: 10px; 
 }
 
-
-
-/* 圓形儀表板邏輯 */
 .gauge-box { 
     width: 140px; 
     height: 140px; 
@@ -63,8 +87,6 @@ body {
     justify-content: center; 
     position: relative; 
 }
-
-
 
 .gauge-box::before { 
     content: ""; 
@@ -81,110 +103,31 @@ body {
     font-weight: bold; 
 }
 
-/* 區域數據樣式 */
 .region-box { 
     grid-column: span 2; 
     background: #334155; 
     border-radius: 10px; 
     padding: 15px; 
-    margin-top: 10px; 
 }
 
-.region-title { 
-    color: #cbd5e1; 
-    margin-bottom: 10px; 
-}
+.region-data { display: flex; justify-content: space-around; }
+.region-val { font-size: 22px; font-weight: bold; color: #fbbf24; }
 
-
-
-.region-data { 
-    display: flex; 
-    justify-content: space-around; 
-}
-
-
-
-.region-val { 
-    font-size: 22px; 
-    font-weight: bold; 
-    color: #fbbf24; 
-}
-
-
-
-/* 控制狀態球 */
-.status-container {
+.status-container { 
     grid-column: span 2; 
     display: flex; 
     justify-content: space-around; 
 }
 
-
-
 .status-ball { 
-    width: 90px; 
-    height: 90px; 
-    border-radius: 50%; 
-    background: #475569; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: 0.4s; 
-    margin-bottom: 10px;
+    width: 80px; height: 80px; border-radius: 50%; 
+    background: #475569; display: flex; align-items: center; 
+    justify-content: center; transition: 0.4s; 
 }
 
+.active { background: #3b82f6 !important; box-shadow: 0 0 15px #3b82f6; }
 
-
-.active { 
-    background: #3b82f6 !important; 
-    box-shadow: 0 0 15px #3b82f6; 
-}
-
-
-
-/* 右側設定面板 - 淺色主題 */
-.setting-panel { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-}
-
-
-
-.control-box { 
-    border: 2.5px solid #3b82f6; 
-    border-radius: 15px; 
-    padding: 20px; 
-    background: white; 
-}
-
-
-
-.input-group { 
-    margin: 15px 0; 
-}
-
-
-
-input { 
-    border: 1px solid #ccc; 
-    font-size: 18px; 
-    font-weight: bold; 
-    color: #3b82f6; 
-    padding: 5px; 
-    border-radius: 5px; 
-}
-
-
-
-.save-btn { 
-    background: #3b82f6; 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 8px; 
-    width: 100%; 
-    font-size: 18px; 
-    cursor: pointer; 
-    font-weight: bold;
-}
+.control-box { border: 2.5px solid #3b82f6; border-radius: 15px; padding: 20px; background: white; }
+.input-group { margin: 15px 0; }
+input { border: 1px solid #ccc; font-size: 18px; font-weight: bold; color: #3b82f6; padding: 5px; border-radius: 5px; width: 80px; }
+.save-btn { background: #3b82f6; color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; font-size: 18px; cursor: pointer; font-weight: bold; }
