@@ -1,0 +1,23 @@
+name: Deploy Web with Secrets
+on:
+  push:
+    branches: ["main"] # 當你 push 到 main 分支時觸發
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Config File
+        run: |
+          # 自動生成一個 json 檔案，把 Secrets 塞進去
+          echo '{
+            "api_key": "${{ secrets.API_KEY }}",
+            "mqtt_pass": "${{ secrets.MQTT_KEY }}"
+          }' > data/config.json
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      # ... 後續部署到 Pages 的步驟
