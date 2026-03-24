@@ -3,61 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧農場監控面板</title>
-    <!-- 連接 CSS -->
-    <link rel="stylesheet" href="test.css">
+    <title>智慧農場氣象監測系統</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="container">
-        <div class="monitor-panel">
-            <div class="time-header">現在時間：<span id="now-time">00:00:00</span></div>
-            
-            <div>
-                <div class="gauge-box" id="gauge-soil">
-                    <div class="gauge-val" id="val-soil">--%</div>
-                </div>
-                <p>即時土壤濕度</p>
-            </div>
 
-            <div>
-                <div class="gauge-box" id="gauge-temp">
-                    <div class="gauge-val"><span id="val-temp">--</span>°C</div>
-                </div>
-                <p>環境氣溫</p>
-            </div>
-            
-            <div class="region-box">
-                <div class="region-title">🌦️ 未來七日平均雨量預測 (mm)</div>
-                <div class="region-data">
-                    <div>北:<span class="region-val" id="val-p0">--</span></div>
-                    <div>中:<span class="region-val" id="val-p1">--</span></div>
-                    <div>南:<span class="region-val" id="val-p2">--</span></div>
-                    <div>東:<span class="region-val" id="val-p3">--</span></div>
-                </div>
-            </div>
-
-            <div class="status-container">
-                <div class="status-item">
-                    <div id="light-ball" class="status-ball">照明</div>
-                    <button class="ctrl-btn" onmousedown="f('light','on')" onmouseup="f('light','off')">點亮</button>
-                </div>
-                <div class="status-item">
-                    <div id="water-ball" class="status-ball">灌溉</div>
-                    <button class="ctrl-btn" onmousedown="f('water','on')" onmouseup="f('water','off')">澆水</button>
-                </div>
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="alert-title">⚠️ 緊急告警</h2>
+            <p id="alert-msg">偵測到強烈地震，請注意安全！</p>
+            <div class="modal-btns">
+                <button onclick="closeModal()">暫時關閉</button>
+                <button onclick="muteAlertToday()" class="btn-mute">今日不再顯示</button>
             </div>
         </div>
-
-        <form action="/update" method="POST" class="setting-panel">
-            <div class="control-box">
-                <h2>自動灌溉排程</h2>
-                <div class="input-group">時間: <input type="time" name="wT" value="03:26"></div>
-                <div class="input-group">持續: <input type="number" name="wD" value="1"> 分鐘</div>
-            </div>
-            <button type="submit" class="save-btn">儲存設定</button>
-        </form>
     </div>
-    <!-- 連接 JavaScript -->
-    <script src="test.js"></script>
+
+    <nav class="navbar">
+        <div class="logo">農場首頁</div>
+        <div id="current-time" class="time-display"></div>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="nav-links">
+            <li><a href="#" onclick="showPage('home')">首頁概況</a></li>
+            <li><a href="#" onclick="showPage('charts')">氣象圖表</a></li>
+            <li><a href="#" onclick="showPage('login')">管理者登入</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>智慧農業即時資訊看板</h1>
+    </header>
+
+    <main id="content">
+        <section id="emergency-bar" class="emergency-bar">
+            <span>🔥 高溫警報：今日北部地區預估突破 38°C，請注意補水。</span>
+        </section>
+
+        <section id="page-home" class="page active">
+            <h2>即時氣象預測 (分區)</h2>
+            <div class="weather-grid">
+                <div class="card"><h3>北部</h3><p>28°C / 70% 濕度</p><p>降雨機率: 20%</p></div>
+                <div class="card"><h3>中部</h3><p>30°C / 65% 濕度</p><p>降雨機率: 10%</p></div>
+                <div class="card"><h3>南部</h3><p>32°C / 60% 濕度</p><p>降雨機率: 0%</p></div>
+                <div class="card"><h3>東部</h3><p>27°C / 75% 濕度</p><p>降雨機率: 40%</p></div>
+            </div>
+        </section>
+
+        <section id="page-charts" class="page">
+            <h2>一週氣象趨勢</h2>
+            <div class="chart-placeholder">
+                <p>[ 這裡將顯示一週溫度與降雨趨勢圖表 ]</p>
+                <div class="fake-chart"></div>
+            </div>
+        </section>
+
+        <section id="page-login" class="page">
+            <div class="login-box">
+                <h2>管理者登入</h2>
+                <input type="password" id="pass" placeholder="請輸入密碼 (預設: 1234)">
+                <button onclick="checkLogin()">登入</button>
+            </div>
+        </section>
+
+        <section id="page-admin" class="page">
+            <h2>農作物灌溉管理面板</h2>
+            <div class="admin-grid">
+                <div class="control-card status-high">
+                    <h3>土壤溫度</h3>
+                    <p class="value">35°C (偏高)</p>
+                </div>
+                <div class="control-card status-normal">
+                    <h3>環境濕度</h3>
+                    <p class="value">60%</p>
+                </div>
+                <div class="control-card">
+                    <h3>灌溉控制</h3>
+                    <button class="btn-water">啟動灑水系統</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="main.js"></script>
 </body>
 </html>
