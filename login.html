@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者登入 - 智慧農業看板</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 登入頁專用樣式 - 視窗致中 */
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        main { flex: 1; display: flex; align-items: center; justify-content: center; }
+        
+        .login-box {
+            width: 100%; max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .input-group { position: relative; margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .input-group input {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
+            font-size: 1rem; transition: var(--transition);
+        }
+        .input-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); outline: none; }
+
+        /* 密碼眼睛 Icon */
+        .toggle-password {
+            position: absolute; right: 15px; top: 38px;
+            cursor: pointer; color: #95a5a6; user-select: none;
+        }
+
+        /* 驗證碼區塊 */
+        .captcha-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        #captcha-code {
+            flex: 1; background: #34495e; color: #ecf0f1;
+            font-family: monospace; font-size: 1.2rem; font-weight: bold;
+            letter-spacing: 5px; padding: 10px; border-radius: 8px;
+            text-align: center; user-select: none;
+        }
+        #btn-refresh-captcha { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--primary-color); }
+
+        .btn-login {
+            width: 100%; background-color: var(--primary-color); color: white;
+            border: none; padding: 12px; border-radius: 8px;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-login:hover { background-color: #2980b9; }
+        .btn-login:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+
+        #login-msg { margin-top: 15px; font-size: 0.9rem; min-height: 1.2rem; }
+        #login-msg.error { color: var(--danger-color); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" style="grid-template-areas: 'time toggle' 'menu menu'; justify-content: space-between;">
+        <div class="nav-time" id="current-time">載入中...</div>
+        <div class="menu-toggle" id="mobile-menu-icon"><span></span><span></span><span></span></div>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="index.html">首頁概況</a></li>
+            <li><a href="charts.html">氣象圖表</a></li>
+            <li><a href="login.html" class="active">管理者登入</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="info-card login-box">
+            <h2 style="margin-bottom: 25px;">管理者登入</h2>
+            
+            <form id="login-form" onsubmit="return false;">
+                <div class="input-group">
+                    <label>帳號</label>
+                    <input type="text" id="username" placeholder="請輸入帳號" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>密碼</label>
+                    <input type="password" id="password" placeholder="請輸入密碼" required>
+                    <span class="toggle-password" id="togglePassword">👁️</span>
+                </div>
+
+                <div class="captcha-row">
+                    <div id="captcha-code">A1B2</div>
+                    <button type="button" id="btn-refresh-captcha">↻</button>
+                    <input type="text" id="captcha-input" placeholder="驗證碼" style="width: 80px; padding:10px; border-radius:8px; border:1px solid #ddd;" required>
+                </div>
+
+                <button type="submit" class="btn-login" id="btn-submit">登入</button>
+                
+                <p id="login-msg"></p>
+            </form>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
