@@ -1,6 +1,5 @@
 .gitignore
 {
-  "cwa_api_key": "CWA-你的授權碼",
-  "location": "臺北市",
+  "cwa_api_key": "CWA-5246C051-E367-4276-A316-6B73776DA2FD",
   "esp32_ip": "http://192.168.1.100"
 }
