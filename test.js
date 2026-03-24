@@ -14,21 +14,29 @@ function updateClock() {
 
 // 2. 抓取氣象署資料並計算「分區平均降雨機率」
 async function fetchWeather() {
-    if (!CONFIG.cwa_api_key || CONFIG.cwa_api_key === "YOUR_API_KEY_HERE") {
-        console.warn("未設定 API Key");
+    if (!CONFIG.cwa_api_key || CONFIG.cwa_api_key.includes("XXXX")) {
+        console.error("API Key 格式不正確，目前為:", CONFIG.cwa_api_key);
         return;
     }
     
-    // 使用 F-D0047-091 (全台現行天氣預報)
-    const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=${CONFIG.cwa_api_key}`;
+    // 增加 &format=JSON
+    const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=${CONFIG.cwa_api_key}&format=JSON`;
 
     try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            mode: 'cors' // 強制開啟跨域模式
+        });
+        
         const data = await res.json();
         
-        // 氣象局資料路徑：records -> locations[0] -> location (陣列)
-        const locations = data.records.locations[0].location;
+        if (data.success === "false") {
+            console.error("氣象局回傳錯誤：", data.result.message);
+            return;
+        }
 
+        const locations = data.records.locations[0].location;
         const regions = {
             "north": ["臺北市", "新北市", "基隆市", "桃園市", "新竹市", "新竹縣", "宜蘭縣"],
             "center": ["苗栗縣", "臺中市", "彰化縣", "南投縣", "雲林縣"],
@@ -36,40 +44,27 @@ async function fetchWeather() {
             "east": ["花蓮縣", "臺東縣"]
         };
 
-        // 迭代四個分區
         Object.keys(regions).forEach(key => {
-            let totalPop = 0;
-            let count = 0;
-
+            let totalPop = 0, count = 0;
             locations.forEach(loc => {
                 if (regions[key].includes(loc.locationName)) {
-                    // 尋找降雨機率 PoP12h (12小時降雨機率)
                     const popElement = loc.weatherElement.find(el => el.elementName === 'PoP12h');
                     if (popElement && popElement.time[0]) {
-                        const popValue = popElement.time[0].elementValue[0].value;
-                        if (popValue !== " ") { // 排除空值
-                            totalPop += parseInt(popValue);
+                        const val = popElement.time[0].elementValue[0].value;
+                        if (val !== " " && val !== null) {
+                            totalPop += parseInt(val);
                             count++;
                         }
                     }
                 }
             });
-
             const avgPop = count > 0 ? Math.round(totalPop / count) : 0;
-            
-            // 更新 UI (對應 val-north, val-center 等)
             const el = document.getElementById(`val-${key}`);
-            if (el) {
-                el.innerText = avgPop + '%';
-                // 擴充功能：如果降雨機率 > 60%，可以給個顏色警示
-                el.style.color = avgPop > 60 ? "#60a5fa" : "#ffffff";
-            }
+            if (el) el.innerText = avgPop + '%';
         });
-
-        console.log("氣象資料已更新於:", new Date().toLocaleTimeString());
-
+        console.log("氣象資料更新成功！");
     } catch (err) {
-        console.error("氣象更新失敗:", err);
+        console.error("Fetch 失敗，可能是網路或 CORS 問題:", err);
     }
 }
 
