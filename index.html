@@ -3,84 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧農場氣象監測系統</title>
+    <title>農場概況 - 智慧農業看板</title>
     <link rel="stylesheet" href="main.css">
+    <style>
+        /* 僅首頁需要的樣式 */
+        .weather-info p { margin: 5px 0; font-size: 0.95rem; }
+        .weather-info strong { color: var(--primary-color); font-size: 1.1rem; }
+    </style>
 </head>
 <body>
 
-    <div id="alert-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="alert-title">⚠️ 緊急告警</h2>
-            <p id="alert-msg">偵測到強烈地震，請注意安全！</p>
-            <div class="modal-btns">
-                <button onclick="closeModal()">暫時關閉</button>
-                <button onclick="muteAlertToday()" class="btn-mute">今日不再顯示</button>
-            </div>
-        </div>
-    </div>
+    <div id="alert-container"></div>
 
     <nav class="navbar">
-        <div class="logo">What the Farm</div>
-        <div id="current-time" class="time-display"></div>
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <ul id="nav-links">
-            <li><a href="#" onclick="showPage('home')">首頁概況</a></li>
-            <li><a href="#" onclick="showPage('charts')">氣象圖表</a></li>
-            <li><a href="#" onclick="showPage('login')">管理者登入</a></li>
+        <div class="nav-brand">農場首頁</div>
+        <div class="nav-time" id="current-time">載入中...</div>
+        
+        <div class="menu-toggle" id="mobile-menu-icon">
+            <span></span><span></span><span></span>
+        </div>
+
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="index.html" class="active">首頁概況</a></li>
+            <li><a href="charts.html">氣象圖表</a></li>
+            <li><a href="login.html">管理者登入</a></li>
         </ul>
     </nav>
 
-    <header class="hero">
+    <header class="hero-banner">
         <h1>智慧農業即時資訊看板</h1>
+        <p>即時監測與預警系統</p>
     </header>
 
-    <main id="content">
-        <section id="emergency-bar" class="emergency-bar">
-            <span>🔥 高溫警報：今日北部地區預估突破 38°C，請注意補水。</span>
+    <main>
+        <section class="emergency-bar">
+            <span>🔥 高溫警報：今日北部地區預估突破 38°C，請注意補水與撒水。</span>
         </section>
 
-        <section id="page-home" class="page active">
-            <h2>即時氣象預測 (分區)</h2>
-            <div class="weather-grid">
-                <div class="card"><h3>北部</h3><p>28°C / 70% 濕度</p><p>降雨機率: 20%</p></div>
-                <div class="card"><h3>中部</h3><p>30°C / 65% 濕度</p><p>降雨機率: 10%</p></div>
-                <div class="card"><h3>南部</h3><p>32°C / 60% 濕度</p><p>降雨機率: 0%</p></div>
-                <div class="card"><h3>東部</h3><p>27°C / 75% 濕度</p><p>降雨機率: 40%</p></div>
-            </div>
-        </section>
-
-        <section id="page-charts" class="page">
-            <h2>一週氣象趨勢</h2>
-            <div class="chart-placeholder">
-                <p>[ 這裡將顯示一週溫度與降雨趨勢圖表 ]</p>
-                <div class="fake-chart"></div>
-            </div>
-        </section>
-
-        <section id="page-login" class="page">
-            <div class="login-box">
-                <h2>管理者登入</h2>
-                <input type="password" id="pass" placeholder="請輸入密碼 (預設: 1234)">
-                <button onclick="checkLogin()">登入</button>
-            </div>
-        </section>
-
-        <section id="page-admin" class="page">
-            <h2>農作物灌溉管理面板</h2>
-            <div class="admin-grid">
-                <div class="control-card status-high">
-                    <h3>土壤溫度</h3>
-                    <p class="value">35°C (偏高)</p>
+        <section>
+            <h2 style="margin-bottom: 15px;">即時氣象預測 (分區)</h2>
+            <div class="card-grid">
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">北部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>28°C</strong></div>
+                        <div><p>降雨機率</p><strong>20%</strong></div>
+                    </div>
                 </div>
-                <div class="control-card status-normal">
-                    <h3>環境濕度</h3>
-                    <p class="value">60%</p>
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">中部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>30°C</strong></div>
+                        <div><p>降雨機率</p><strong>10%</strong></div>
+                    </div>
                 </div>
-                <div class="control-card">
-                    <h3>灌溉控制</h3>
-                    <button class="btn-water">啟動灑水系統</button>
                 </div>
-            </div>
         </section>
     </main>
 
