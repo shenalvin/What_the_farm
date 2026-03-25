@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氣象圖表 - 智慧農業看板</title>
+    <title>氣象圖表 - What the Farm</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
@@ -18,13 +18,48 @@
         </div>
 
         <ul class="nav-menu" id="nav-menu">
-            <li><a href="index.html" class="active">首頁概況</a></li>
+            <li><a href="index.html" >首頁概況</a></li>
             <li><a href="charts.html">氣象圖表</a></li>
             <li><a href="login.html">管理者登入</a></li>
         </ul>
     </nav>
 
     <main>
+        <section>
+            <h2 style="margin-bottom: 15px;">即時氣象預測 (分區)</h2>
+
+            <div class="weather-grid-2x2">
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">北部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>28°C</strong></div>
+                        <div><p>降雨機率</p><strong>20%</strong></div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">中部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>30°C</strong></div>
+                        <div><p>降雨機率</p><strong>10%</strong></div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">南部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>28°C</strong></div>
+                        <div><p>降雨機率</p><strong>50%</strong></div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3 style="text-align:center; margin-bottom:10px;">東部</h3>
+                    <div class="weather-info" style="display:flex; justify-content:space-around; text-align:center;">
+                        <div><p>溫度</p><strong>24°C</strong></div>
+                        <div><p>降雨機率</p><strong>70%</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <h2>一週氣象趨勢 (分區預報)</h2>
         
         <div class="card-grid">
@@ -42,7 +77,8 @@
                 <div style="height:150px;"><canvas id="rain-central"></canvas></div>
             </div>
 
-            </div>
+        </div>
+        
     </main>
 
     <script src="script.js"></script>
