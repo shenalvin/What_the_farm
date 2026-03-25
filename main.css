@@ -137,21 +137,25 @@ main { padding: 20px; max-width: 1200px; margin: 0 auto; }
 /* --- 緊急告警對話框 (堆疊式) --- */
 #alert-container {
     position: fixed;
-    top: 20px; left: 50%;
+    top: 20px;
+    left: 50%;
     transform: translateX(-50%);
-    z-index: 2000;
-    width: 90%; max-width: 500px;
-    display: flex; flex-direction: column; gap: 10px;
+    z-index: 2000; /* 確保比 navbar 高 */
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .modal-alert {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 增加陰影深度 */
     position: relative;
-    border-left: 5px solid var(--danger-color);
-    animation: slideInDown 0.5s ease;
+    border-left: 8px solid #e74c3c;
+    color: #333; /* 確保文字是深色，不被導航欄顏色影響 */
 }
 
 .modal-alert.warning { border-left-color: var(--warning-color); }
@@ -194,50 +198,83 @@ body {
     background-color: #f4f4f4;
 }
 
-/* 導航欄容器 */
+/* --- 1. 統一導航欄樣式 (兩層式) --- */
 .navbar {
-    background-color: #1a252f; /* 深色背景 */
+    background-color: #1a252f;
     color: white;
-    padding: 15px 30px;
+    padding: 15px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* 降低一點，讓對話框能蓋過它 */
 }
 
-/* 標題與時間那一列 */
 .nav-top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
-.nav-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+.nav-brand { font-size: 1.6rem; font-weight: 900; }
+.nav-time { font-size: 1rem; color: #bdc3c7; }
 
-.nav-time {
-    font-size: 1rem;
-}
-
-/* 下方的按鈕列 */
 .nav-links-row {
     display: flex;
     justify-content: center;
     margin-top: 15px;
 }
 
-.nav-menu {
-    display: flex;
-    gap: 20px;
-}
-
-/* 橢圓形按鈕樣式 */
+.nav-menu { display: flex; gap: 20px; }
 .nav-menu a {
     color: white;
-    padding: 8px 20px;
+    padding: 8px 25px;
     border-radius: 25px;
     transition: 0.3s;
 }
 
+/* 橢圓形選中狀態 */
 .nav-menu a.active, .nav-menu a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- 2. 修正：分區氣象 2x2 方塊佈局 --- */
+.weather-grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 電腦版兩列 */
+    gap: 25px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+
+/* 手機版適配 */
+@media (max-width: 768px) {
+    .nav-top-row { flex-direction: column; text-align: center; }
+    .weather-grid-2x2 { grid-template-columns: 1fr; } /* 手機版一列 */
+}
+
+/* 環境狀態顏色提醒 */
+/* --- 3. 管理者卡片顏色強化 (全版背景) --- */
+.status-danger { background-color: #e74c3c !important; color: white !important; }
+.status-success { background-color: #27ae60 !important; color: white !important; }
+
+.status-card { 
+    color: white; 
+    border: none; 
+}
+.status-card h3 { 
+    opacity: 0.8; 
+    font-size: 1rem; 
+    margin-bottom: 10px; 
+}
+.status-card .value { 
+    font-size: 2.5rem; 
+    font-weight: bold; 
+}
+.status-card .desc {
+    font-size: 0.9rem; 
+    opacity: 0.9; 
+}
+.btn-water:hover { 
+    background: #ecf0f1; 
+    transform: scale(1.05); 
 }
