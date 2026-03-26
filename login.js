@@ -74,23 +74,30 @@ async function loadConfig() {
 loginForm.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    let admins = [];
-    admins = config.admins;
+    // --- 修正處 1：從 sessionStorage 獲取正確的設定資料 ---
+    const configData = sessionStorage.getItem('globalConfig');
+    if (!configData) {
+        showError("系統設定載入中，請稍後再試...");
+        await loadConfig(); // 嘗試重新載入
+        return;
+    }
     
+    const config = JSON.parse(configData);
+    let admins = config.admins || []; 
 
-    // 2. 驗證驗證碼 (保留你原本的邏輯)
+    // 2. 驗證驗證碼
     if (captchaInput.value.toUpperCase() !== currentCaptcha) {
         showError("驗證碼錯誤！");
         generateCaptcha();
         return;
     }
 
-    // 3. 比對帳密與獲取顯示名稱
-    const user = admins.find(u => u.username === usernameInput.value && u.password === passwordInput.value);
+    // 3. 比對帳密 (確保比對邏輯正確)
+    const user = admins.find(u => u.username === usernameInput.value && u.password === String(passwordInput.value));
 
     if (user) {
         sessionStorage.setItem('isAdmin', 'true');
-        sessionStorage.setItem('adminName', user.displayName); // 儲存名稱供管理介面使用
+        sessionStorage.setItem('adminName', user.displayName);
         window.location.href = 'admin.html';
     } else {
         handleLoginFail();

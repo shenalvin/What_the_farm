@@ -26,6 +26,8 @@ async function loadConfig() {
 
 // 確保頁面一開啟就載入
 document.addEventListener('DOMContentLoaded', loadConfig);
+const config = JSON.parse(configData);
+const cwa_api_key = config.cwa_api_key;
 
 // --- CWA 資料設定 ---
 const CWA_API_KEY = config.cwa_api_key; 
