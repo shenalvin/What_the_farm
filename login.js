@@ -40,9 +40,53 @@ function generateCaptcha() {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     currentCaptcha = code;
-    captchaCodeDisplay.innerText = code;
-    captchaInput.value = ""; // 清空輸入框
+    document.getElementById('captcha-code').innerText = code;
+    captchaCreatedAt = new Date(); // 紀錄產生時間
+    msgDisplay.innerText = ""; // 清除提示
 }
+
+function isCaptchaExpired() {
+    if (!captchaCreatedAt) return true;
+    const now = new Date();
+    const diff = (now - captchaCreatedAt) / 1000 / 60; // 分鐘
+    return diff >= 30;
+}
+
+loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // 1. 檢查驗證碼時效
+    if (isCaptchaExpired()) {
+        showError("⚠️ 驗證碼已超過 30 分鐘，請點擊刷新按鈕更換後再登入。");
+        return;
+    }
+
+    // 2. 驗證碼內容檢查
+    if (captchaInput.value.toUpperCase() !== currentCaptcha) {
+        showError("驗證碼錯誤！");
+        generateCaptcha();
+        return;
+    }
+
+    // 3. 從 sessionStorage 讀取 main.js 抓好的帳密資料
+    const configData = JSON.parse(sessionStorage.getItem('globalConfig'));
+    if (!configData || !configData.admins) {
+        showError("系統資料載入中，請稍後再試。");
+        return;
+    }
+
+    const user = configData.admins.find(u => 
+        u.username === usernameInput.value && u.password === passwordInput.value
+    );
+
+    if (user) {
+        sessionStorage.setItem('isAdmin', 'true');
+        sessionStorage.setItem('adminName', user.displayName);
+        window.location.href = 'admin.html';
+    } else {
+        handleLoginFail();
+    }
+});
 
 // 3. 跳開頁面時清除表單 (使用 pageshow 事件)
 window.addEventListener('pageshow', (event) => {

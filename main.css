@@ -248,8 +248,56 @@ body {
 
 /* 手機版適配 */
 @media (max-width: 768px) {
-    .nav-top-row { flex-direction: column; text-align: center; }
-    .weather-grid-2x2 { grid-template-columns: 1fr; } /* 手機版一列 */
+    /* 1. 導航欄主體：維持垂直排列，但確保子項目分行 */
+    .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 5px;
+        grid-template-areas: none; /* 取消原本的 grid 影響 */
+    }
+
+    /* 2. 標題一行 */
+    .nav-brand {
+        width: 100%;
+        text-align: center;
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    /* 3. 時間一行 */
+    .nav-time {
+        width: 100%;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #bdc3c7;
+        margin-bottom: 10px;
+    }
+
+    /* 4. 按鈕列一行，且不換行 */
+    .nav-links-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+    }
+
+    .nav-menu {
+        display: flex !important; /* 強制手機版也顯示，不依賴漢堡選單（若不需收合） */
+        flex-direction: row; /* 水平排列 */
+        gap: 8px; /* 縮小按鈕間距防止換行 */
+        width: auto;
+        justify-content: center;
+    }
+
+    .nav-menu a {
+        padding: 6px 12px; /* 縮小按鈕內距 */
+        font-size: 0.85rem; /* 稍微縮小字體 */
+        white-space: nowrap; /* 絕對不換行 */
+    }
+
+    /* 隱藏手機版漢堡按鈕，因為按鈕已經在一行內顯示 */
+    .menu-toggle { display: none !important; }
 }
 
 /* 環境狀態顏色提醒 */

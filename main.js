@@ -10,6 +10,25 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+async function loadGlobalConfig() {
+    try {
+        const response = await fetch('data/config.json');
+        const config = await response.json();
+        // 存入 sessionStorage 讓所有頁面 JS 都能直接讀取，不用重複 fetch
+        sessionStorage.setItem('globalConfig', JSON.stringify(config));
+    } catch (err) {
+        console.error("全域設定載入失敗:", err);
+    }
+}
+
+function updateActiveState() {
+    const path = window.location.pathname.split("/").pop() || 'index.html';
+    document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
+    if (path.includes('index')) document.getElementById('nav-home')?.classList.add('active');
+    else if (path.includes('charts')) document.getElementById('nav-charts')?.classList.add('active');
+    else if (path.includes('login')) document.getElementById('nav-login')?.classList.add('active');
+}
+
 
 // --- 2. 漢堡選單邏輯 (手機版) ---
 const menuToggle = document.getElementById('mobile-menu-icon');
