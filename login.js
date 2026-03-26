@@ -60,6 +60,44 @@ function clearForm() {
 
 
 
+async function getCWAData() {
+    try {
+        const response = await fetch('你的API_URL'); // 發送請求
+        const data = await response.json();        // 將回傳內容轉成 JS 物件
+        
+        // 接下來就可以用「點」符號來抓資料了
+        console.log(data.records.record[0].datasetDescription); 
+    } catch (error) {
+        console.error("抓取失敗：", error);
+    }
+}
+// --- 核心登入邏輯 ---
+loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    let admins = [];
+    admins = config.admins;
+    
+
+    // 2. 驗證驗證碼 (保留你原本的邏輯)
+    if (captchaInput.value.toUpperCase() !== currentCaptcha) {
+        showError("驗證碼錯誤！");
+        generateCaptcha();
+        return;
+    }
+
+    // 3. 比對帳密與獲取顯示名稱
+    const user = admins.find(u => u.username === usernameInput.value && u.password === passwordInput.value);
+
+    if (user) {
+        sessionStorage.setItem('isAdmin', 'true');
+        sessionStorage.setItem('adminName', user.displayName); // 儲存名稱供管理介面使用
+        window.location.href = 'admin.html';
+    } else {
+        handleLoginFail();
+    }
+});
+
 
 function handleLoginFail() {
     failCount++;

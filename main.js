@@ -9,19 +9,23 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// 1. 先讀取你的 JSON 設定檔 (假設路徑正確)
-let admins = [];
-async function getCWAData() {
+
+let globalConfig = null;
+
+async function loadConfig() {
     try {
-        const response = await fetch('你的API_URL'); // 發送請求
-        const data = await response.json();        // 將回傳內容轉成 JS 物件
-        
-        // 接下來就可以用「點」符號來抓資料了
-        console.log(data.records.record[0].datasetDescription); 
+        const response = await fetch('data/config.json');
+        globalConfig = await response.json();
+        // 將設定存入 session，讓其他 JS (如 login.js) 也能用到
+        sessionStorage.setItem('globalConfig', JSON.stringify(globalConfig));
+        console.log("Config 載入成功");
     } catch (error) {
-        console.error("抓取失敗：", error);
+        console.error("無法讀取 config.json:", error);
     }
 }
+
+// 確保頁面一開啟就載入
+document.addEventListener('DOMContentLoaded', loadConfig);
 
 // --- CWA 資料設定 ---
 const CWA_API_KEY = config.cwa_api_key; 
@@ -124,29 +128,3 @@ async function fetchEarthquake() {
     } catch (e) { console.error("地震資料抓取失敗", e); }
 }
 
-// --- 核心登入邏輯 ---
-
-loginForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    admins = config.admins;
-    
-
-    // 2. 驗證驗證碼 (保留你原本的邏輯)
-    if (captchaInput.value.toUpperCase() !== currentCaptcha) {
-        showError("驗證碼錯誤！");
-        generateCaptcha();
-        return;
-    }
-
-    // 3. 比對帳密與獲取顯示名稱
-    const user = admins.find(u => u.username === usernameInput.value && u.password === passwordInput.value);
-
-    if (user) {
-        sessionStorage.setItem('isAdmin', 'true');
-        sessionStorage.setItem('adminName', user.displayName); // 儲存名稱供管理介面使用
-        window.location.href = 'admin.html';
-    } else {
-        handleLoginFail();
-    }
-});
