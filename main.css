@@ -217,7 +217,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr; /* 電腦版兩列 */
     gap: 25px;
-    max-width: 900px;
+    max-width: auto;
     margin: 20px auto;
 }
 
