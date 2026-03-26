@@ -58,19 +58,18 @@ function clearForm() {
     msgDisplay.innerText = ""; // 清除錯誤訊息
 }
 
-
-
-async function getCWAData() {
+async function loadConfig() {
     try {
-        const response = await fetch('你的API_URL'); // 發送請求
-        const data = await response.json();        // 將回傳內容轉成 JS 物件
-        
-        // 接下來就可以用「點」符號來抓資料了
-        console.log(data.records.record[0].datasetDescription); 
+        const response = await fetch('data/config.json');
+        globalConfig = await response.json();
+        // 將設定存入 session，讓其他 JS (如 login.js) 也能用到
+        sessionStorage.setItem('globalConfig', JSON.stringify(globalConfig));
+        console.log("Config 載入成功");
     } catch (error) {
-        console.error("抓取失敗：", error);
+        console.error("無法讀取 config.json:", error);
     }
 }
+
 // --- 核心登入邏輯 ---
 loginForm.addEventListener('submit', async function(e) {
     e.preventDefault();
