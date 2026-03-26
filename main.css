@@ -64,30 +64,6 @@ body {
     background-color: rgba(255,255,255,0.1);
 }
 
-/* 漢堡選單 Icon (美化版) */
-.menu-toggle {
-    display: none; /* 電腦版隱藏 */
-    grid-area: time; /* 與時間並排 */
-    justify-self: end;
-    cursor: pointer;
-    width: 30px; height: 24px;
-    position: relative;
-}
-
-.menu-toggle span {
-    display: block; position: absolute;
-    height: 3px; width: 100%; background: #fff;
-    border-radius: 9px; opacity: 1; left: 0;
-    transition: .25s ease-in-out;
-}
-.menu-toggle span:nth-child(1) { top: 0px; }
-.menu-toggle span:nth-child(2) { top: 10px; }
-.menu-toggle span:nth-child(3) { top: 20px; }
-
-/* 漢堡選單啟動狀態 (X形) */
-.menu-toggle.open span:nth-child(1) { top: 10px; transform: rotate(135deg); }
-.menu-toggle.open span:nth-child(2) { opacity: 0; left: -60px; }
-.menu-toggle.open span:nth-child(3) { top: 10px; transform: rotate(-135deg); }
 
 /* --- 主體內容區 --- */
 main { padding: 20px; max-width: 1200px; margin: 0 auto; }
@@ -199,14 +175,14 @@ body {
 }
 
 /* --- 1. 統一導航欄樣式 (兩層式) --- */
-.navbar {
+/*.navbar {
     background-color: #1a252f;
     color: white;
     padding: 15px 40px;
     position: sticky;
     top: 0;
     z-index: 1000; /* 降低一點，讓對話框能蓋過它 */
-}
+/*}*/
 
 .nav-top-row {
     display: flex;
@@ -295,9 +271,6 @@ body {
         font-size: 0.85rem; /* 稍微縮小字體 */
         white-space: nowrap; /* 絕對不換行 */
     }
-
-    /* 隱藏手機版漢堡按鈕，因為按鈕已經在一行內顯示 */
-    .menu-toggle { display: none !important; }
 }
 
 /* 環境狀態顏色提醒 */

@@ -1,33 +1,33 @@
+// 登出功能
 function logout() {
     sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('adminName');
     window.location.href = 'login.html';
 }
-// 進入頁面時讀取名稱與設定
+
 document.addEventListener('DOMContentLoaded', () => {
+    // 安全檢查：若未登入則導回
+    if (sessionStorage.getItem('isAdmin') !== 'true') {
+        window.location.href = 'login.html';
+        return;
+    }
+
     const user = sessionStorage.getItem('adminName') || '管理員';
-    document.getElementById('admin-welcome').innerText = `歡迎回來，${user}`;
+    const welcomeMsg = document.getElementById('admin-welcome');
+    if (welcomeMsg) welcomeMsg.innerText = `歡迎回來，${user}`;
             
-    // 讀取之前存好的地區
-    //document.getElementById('pref-region').value = localStorage.getItem('userRegion') || 'Taipei';
+    // 自動選取之前存過的地區
+    const savedRegion = localStorage.getItem('user_region') || '臺北市';
+    const selector = document.getElementById('region-selector');
+    if (selector) selector.value = savedRegion;
 });
 
-function savePref() {
-    const region = document.getElementById('pref-region').value;
-    localStorage.setItem('userRegion', region);
-    alert('監測地區已更新為：' + region);
-}
-
-function saveSecret() {
-    const key = document.getElementById('iot-key').value;
-    // 僅存在 Session，避免永久留在電腦上
-    sessionStorage.setItem('iot_secret', key);
-    alert('金鑰已加密暫存');
-}
-
 function saveRegionSettings() {
-    const selectedRegion = document.getElementById('region-selector').value;
-    // 統一儲存名稱為 user_region
-    localStorage.setItem('user_region', selectedRegion);
-    alert(`地區已成功設定為：${selectedRegion}`);
-    location.reload(); 
+    const selector = document.getElementById('region-selector');
+    if (selector) {
+        const selectedRegion = selector.value;
+        localStorage.setItem('user_region', selectedRegion);
+        alert(`地區已成功設定為：${selectedRegion}`);
+        location.reload(); 
+    }
 }
