@@ -2,14 +2,25 @@
   "admins": [
     {
       "username": "admin1",
-      "password": "hashed_password_or_plain_1",
-      "displayName": "管理者 A"
+      "password": "950624",
+      "displayName": "沈伯勳"
     },
     {
       "username": "admin2",
-      "password": "hashed_password_or_plain_2",
-      "displayName": "管理者 B"
+      "password": "950325",
+      "displayName": "陳品叡"
+    },
+    {
+      "username": "admin3",
+      "password": "940906",
+      "displayName": "王建堯"
+    },
+    {
+      "username": "admin4",
+      "password": "950000",
+      "displayName": "王嘉斌"
     }
   ],
-  "iot_api_key": "YOUR_SECRET_KEY"
+  "iot_api_key": "CWA-5246C051-E367-4276-A316-6B73776DA2FD"
+  
 }

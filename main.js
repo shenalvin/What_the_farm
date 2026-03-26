@@ -30,7 +30,9 @@ if (menuToggle && navMenu) {
     });
 }
 
-const CWA_API_KEY = 'CWA-5246C051-E367-4276-A316-6B73776DA2FD';
+const CWA_API_KEY = "data/config.js";
+const alert_key = 'W-C0033-001';
+const earthquake_key = 'E-A0015-001';
 
 // --- 緊急告警預告 ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -108,7 +110,9 @@ function muteAlertToday(alertId, modalId) {
 
 async function fetchCWAAlerts() {
     try {
-        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/W-C0033-001?Authorization=${CWA_API_KEY}`;
+        // 警報及特報_天氣特報資訊_[各別縣市地區目前所遭受之天氣警特報情形
+        //警報及特報包含颱風警報、豪(大)雨特報、陸上強風特報、濃霧特報等 4 項警特報資訊。
+        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${alert_key}?Authorization=${CWA_API_KEY}`;
         const resp = await fetch(url);
         const data = await resp.json();
         const hazards = data.records.record; // 取得所有警報訊息
@@ -130,7 +134,9 @@ async function fetchCWAAlerts() {
 // 抓取最新地震資訊
 async function fetchEarthquake() {
     try {
-        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=${CWA_API_KEY}`;
+        //顯著有感地震報告資料-顯著有感地震報告
+        //地震編號、日期、時間、位置、深度、規模、各地區震度
+        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${earthquake_key}?Authorization=${CWA_API_KEY}`;
         const resp = await fetch(url);
         const data = await resp.json();
         const eq = data.records.Earthquake[0]; // 取得最新一筆地震
