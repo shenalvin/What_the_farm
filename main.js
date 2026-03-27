@@ -12,7 +12,7 @@ setInterval(updateClock, 1000);
 
 let globalConfig = null;
 
-async function loadConfig() {
+/*async function loadConfig() {
     try {
         const response = await fetch('data/config.json');
         globalConfig = await response.json();
@@ -22,10 +22,25 @@ async function loadConfig() {
     } catch (error) {
         console.error("無法讀取 config.json:", error);
     }
+}*/
+
+async function loadConfig() {
+    try {
+        const response = await fetch('data/config.json');
+        globalConfig = await response.json();
+        sessionStorage.setItem('globalConfig', JSON.stringify(globalConfig));
+        
+        if (!response.ok) {
+            throw new Error('網路回應錯誤: ' + response.statusText);
+        }
+
+    } catch (error) {
+        console.error('讀取失敗：', error);
+    }
 }
 
 // 確保頁面一開啟就載入
-document.addEventListener('DOMContentLoaded', loadConfig);
+// document.addEventListener('DOMContentLoaded', loadConfig);
 const cwa_api_key = config.cwa_api_key;
 
 // --- CWA 資料設定 ---

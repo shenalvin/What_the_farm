@@ -21,6 +21,61 @@
       "displayName": "王嘉斌"
     }
   ],
-  "cwa_api_key": "CWA-5246C051-E367-4276-A316-6B73776DA2FD"
+  
+
+  "cwa_API_code":[
+    {
+      "cwa_api_key": "CWA-5246C051-E367-4276-A316-6B73776DA2FD",
+      "alert": {
+        "earthquake": "E-A0015-001",
+        "Hight_temp": "W-C0033-005",
+        "country": "W-C0033-001",
+        "typhoon": "W-C0034-001"
+      },
+      "info_alert": {
+        "info_earthquake":[
+          "顯著有感地震報告資料-顯著有感地震報告",
+          "提供顯著有感地震報告資料-地震報告XML",
+          "地震編號、日期、時間、位置、深度、規模、各地區震度"
+        ],
+        "info_Hight_temp":[
+          "天氣特報-高溫資訊",
+          "災害性天氣特報資料-災害性天氣資訊-高溫資訊CAP檔",
+          "高溫特報"
+        ],
+        "info_country":[
+          "天氣特報-各別縣市地區目前之天氣警特報情形",
+          "災害性天氣特報資料-以縣市地區為主要結構設計之 XML，適用於想了解各別縣市地區目前所遭受之天氣警特報情形。",
+          "災害性天氣特報資料(含豪(大)雨特報、陸上強風特報、濃霧特報、颱風警報)"
+        ],
+        "info_typhoon":[
+          "颱風消息與警報-颱風警報",
+          "颱風消息與警報-災害性天氣資訊-颱風警報CAP檔",
+          "颱風消息與颱風警報"
+        ]
+      },
+      "weather": {
+        "all": "O-A0001-001",
+        "farming": "F-A0010-001"
+
+      },
+      "info_weather": {
+        "info_all":[
+          "氣象觀測站-全測站逐時氣象資料",
+          "提供全臺有人站、自動氣象站、農業站等之逐時(整點小時)氣象觀測資料-觀測項目包含有測站名稱、測站代碼、觀測時間、座標系名稱及格式、測站經緯度及高度、所在縣市鄉鎮市區名稱及代碼、天氣現象、當日降水量、平均風速、平均風向、氣溫、相對溼度、測站氣壓、最大瞬間風風速風向及時間、當日最高低溫及時間。",
+          "CoordinateFormat、CoordinateName、StationLatitude、StationLongitude、CountyCode、CountyName、StationAltitude、TownCode、TownName、DateTime、AirPressure、AirTemperature、WindDirection、PeakGustSpeed、Precipitation、RelativeHumidity、Weather、WindSpeed"
+        ],
+        "info_farming":[
+          "一週農業氣象預報-未來天氣概況、各地天氣預報及農事建議",
+          "未來一週農業氣象預報(包含:未來天氣概況、各地天氣預報及農事建議)-未來一週農業氣象預報(包含:未來天氣概況、各地天氣預報及農事建議)",
+          "未來天氣概況、各地天氣預報、農事建議"
+        ],
+      }
+
+    }
+    
+
+    
+  ]
   
 }
