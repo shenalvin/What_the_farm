@@ -7,13 +7,14 @@ require('dotenv').config();
 const app = express();
 const PORT = 3000;
 
-app.use(express.static('public')); // 託管靜態網頁
+app.use(express.static(path.join(__dirname, 'public')));// 託管靜態網頁
 app.use(express.json());
 
 // 讀取本地 config.json
 const getConfig = () => {
-    const rawData = fs.readFileSync(path.join(__dirname, 'data/config.json'));
-    return JSON.parse(rawData);
+    const configPath = path.join(__dirname, 'data', 'config.json');
+    const data = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(data);
 };
 
 // --- 功能 A：登入驗證 API ---
