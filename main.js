@@ -29,7 +29,7 @@ async function loadConfig() {
         const response = await fetch('data/config.json');
         globalConfig = await response.json();
         sessionStorage.setItem('globalConfig', JSON.stringify(globalConfig));
-        
+
         if (!response.ok) {
             throw new Error('網路回應錯誤: ' + response.statusText);
         }
@@ -39,14 +39,12 @@ async function loadConfig() {
     }
 }
 
-// 確保頁面一開啟就載入
-// document.addEventListener('DOMContentLoaded', loadConfig);
-const cwa_api_key = config.cwa_api_key;
+const cwa_setting = globalConfig.cwa_API_code[0];
 
 // --- CWA 資料設定 ---
-const CWA_API_KEY = config.cwa_api_key; 
-const alert_key = 'W-C0033-001';
-const earthquake_key = 'E-A0015-001';
+let CWA_API_KEY = cwa_setting.cwa_api_key; 
+let Hight_temp_key = cwa_setting.alert.Hight_temp;
+let earthquake_key = cwa_setting.alert.earthquake;
 
 // --- 告警系統 ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -98,7 +96,7 @@ function muteAlertToday(alertId, modalId) {
 async function fetchCWAAlerts() {
     try {
         const targetRegion = localStorage.getItem('user_region') || '臺北市';
-        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${alert_key}?Authorization=${CWA_API_KEY}`;
+        const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${Hight_temp_key}?Authorization=${CWA_API_KEY}`;
         const resp = await fetch(url);
         const data = await resp.json();
         const records = data.records.record; 
