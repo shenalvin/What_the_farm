@@ -69,3 +69,4 @@ function renderCharts(labels, tempSource, rainSource) {
     createWeatherChart('temp-north', '一週溫度', tempSource, '#e74c3c', 'line', false);
     createWeatherChart('rain-north', '降雨機率', rainSource, '#3498db', 'bar');
 }
+
