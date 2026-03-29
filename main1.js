@@ -15,7 +15,8 @@ const weekLabels = ['週一', '週二', '週三', '週四', '週五', '週六', 
 
 // 圖表生成函數：保持代碼簡潔
 function createWeatherChart(id, label, data, color, type, fill = false) {
-    const ctx = document.getElementById(id).getContext('2d');
+    // const ctx = document.getElementById(id).getContext('2d');
+    const ctx = document.getElementById(id);
     new Chart(ctx, {
         type: type,
         data: {
