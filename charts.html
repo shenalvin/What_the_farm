@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氣象圖表 - What the Farm</title>
+    <title>What the Farm - 氣象資訊</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
@@ -19,8 +19,8 @@
 
         <ul class="nav-menu" id="nav-menu">
             <li><a href="index.html" >首頁概況</a></li>
-            <li><a href="charts.html">氣象圖表</a></li>
-            <li><a href="login.html">管理者登入</a></li>
+            <li><a href="charts.html">氣象資訊</a></li>
+            <li><a href="login.html">管理員介面</a></li>
         </ul>
     </nav>
 
@@ -76,9 +76,22 @@
                 <h3 style="margin-top:20px;">中部地區 - 降雨機率</h3>
                 <div style="height:150px;"><canvas id="rain-central"></canvas></div>
             </div>
-
         </div>
-        
+        <div class="card-grid">
+            <div class="info-card">
+                <h3>南部地區 - 溫度趨勢</h3>
+                <div style="height:200px;"><canvas id="temp-north"></canvas></div>
+                <h3 style="margin-top:20px;">南部地區 - 降雨機率</h3>
+                <div style="height:150px;"><canvas id="rain-north"></canvas></div>
+            </div>
+
+            <div class="info-card">
+                <h3>東部地區 - 溫度趨勢</h3>
+                <div style="height:200px;"><canvas id="temp-central"></canvas></div>
+                <h3 style="margin-top:20px;">東部地區 - 降雨機率</h3>
+                <div style="height:150px;"><canvas id="rain-central"></canvas></div>
+            </div>
+        </div>
     </main>
 
     <script src="main.js"></script>
