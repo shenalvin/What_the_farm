@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selector = document.getElementById('region-selector');
     if (selector) selector.value = savedRegion;
 });
-
+/*
 function saveRegionSettings() {
     const selector = document.getElementById('region-selector');
     if (selector) {
@@ -30,4 +30,4 @@ function saveRegionSettings() {
         alert(`地區已成功設定為：${selectedRegion}`);
         location.reload(); 
     }
-}
+}*/

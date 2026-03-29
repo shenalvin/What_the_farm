@@ -57,6 +57,7 @@ createWeatherChart('rain-south', '降雨機率', [10, 20, 80, 40, 10, 5, 0], '#3
 createWeatherChart('temp-east', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false); // 無填充
 createWeatherChart('rain-east', '降雨機率', [10, 20, 80, 40, 10, 5, 0], '#3498db', 'bar');
 
+/*
 // 取得 UI 元件
 // login.html
 const loginForm = document.getElementById('login-form');
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedRegion = localStorage.getItem('user_region') || '臺北市';
     const selector = document.getElementById('region-selector');
     if (selector) selector.value = savedRegion;
-});
+});*/
 
 //農場所在地設定
 function saveRegionSettings() {

@@ -144,7 +144,7 @@ async function fetchEarthquake() {
 
 `
 <script src="main.js"></script>
-<script src="login.js"></script>
 <script src="charts.js"></script>
+<script src="login.js"></script>
 <script src="admin.js"></script>
 `
