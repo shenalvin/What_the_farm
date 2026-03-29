@@ -30,11 +30,12 @@ function createWeatherChart(id, label, data, color, type, fill = false) {
 }
 
 // 渲染北部數據 (示範)
-createWeatherChart('temp-north', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false); // 無填充
-createWeatherChart('rain-north', '降雨機率', [10, 20, 80, 40, 10, 5, 0], '#3498db', 'bar');
+createWeatherChart('hight_temp-north', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false); // 無填充
+createWeatherChart('low_temp-north', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#3cdce7', 'line', false); // 無填充
+createWeatherChart('rain-north', '降雨機率', [10, 20, 80, 40, 10, 5, 0], '#15b0f2', 'bar');
 
 // 渲染中部數據 (示範)
-createWeatherChart('temp-central', '最高溫', [28, 29, 31, 33, 30, 29, 28], '#e74c3c', 'line', false);
+createWeatherChart('temp-central', '最高溫', [28, 29, 31, 33, 30, 29, 28], '#e74c3c', 'line', false);   
 createWeatherChart('rain-central', '降雨機率', [0, 0, 5, 10, 0, 0, 0], '#3498db', 'bar');
 
 createWeatherChart('temp-south', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false); // 無填充
@@ -52,7 +53,7 @@ async function fetchWeeklyWeather() {
         
         // 解析邏輯 (範例：抓取平均溫度與降雨機率)
         const location = data.records.Locations[0].Location.find(l => l.LocationName === "臺北市");
-        const tempElements = location.WeatherElement.find(e => e.ElementName === "T").Time;
+        const tempElements = location.WeatherElement.find(e => e.ElementName === "平均溫度").Time;
         const rainElements = location.WeatherElement.find(e => e.ElementName === "PoP12h").Time;
 
         // 整理成 Chart.js 需要的陣列格式
