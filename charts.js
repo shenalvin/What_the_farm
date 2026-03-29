@@ -30,11 +30,7 @@ function createWeatherChart(id, label, data, color, type, fill = false) {
 }
 
 // 渲染北部數據 (示範)
-createWeatherChart(
-    'temp-north', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false,
-    '最低溫', [25, 27, 26, 30, 28, 26, 25], '#3cdce7', 'line', false
-); // 無填充
-// createWeatherChart(); // 無填充
+createWeatherChart('temp-north', '最高溫', [25, 27, 26, 30, 28, 26, 25], '#e74c3c', 'line', false); // 無填充
 createWeatherChart('rain-north', '降雨機率', [10, 20, 80, 40, 10, 5, 0], '#15b0f2', 'bar');
 
 // 渲染中部數據 (示範)
