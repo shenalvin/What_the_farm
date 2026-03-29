@@ -191,6 +191,12 @@ function showError(msg) {
     msgDisplay.classList.add('error');
 }
 
+// 登出功能
+function logout() {
+    sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('adminName');
+    window.location.href = 'login.html';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // 安全檢查：若未登入則導回
