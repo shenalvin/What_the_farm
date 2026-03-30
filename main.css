@@ -163,12 +163,12 @@ main { padding: 20px; max-width: 1200px; margin: 0 auto; }
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* 基礎重置：消除原生 HTML 的點點與間距 */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    list-style: none; /* 這一行會消除截圖中的圓點 */
+    list-style: none;
     text-decoration: none;
 }
 
@@ -177,15 +177,6 @@ body {
     background-color: #f4f4f4;
 }
 
-/* --- 1. 統一導航欄樣式 (兩層式) --- */
-/*.navbar {
-    background-color: #1a252f;
-    color: white;
-    padding: 15px 40px;
-    position: sticky;
-    top: 0;
-    z-index: 1000; /* 降低一點，讓對話框能蓋過它 */
-/*}*/
 
 .nav-top-row {
     display: flex;
@@ -278,8 +269,14 @@ body {
 
 /* 環境狀態顏色提醒 */
 /* --- 3. 管理者卡片顏色強化 (全版背景) --- */
-.status-danger { background-color: #e74c3c !important; color: white !important; }
-.status-success { background-color: #27ae60 !important; color: white !important; }
+.status-danger { 
+    background-color: #e74c3c !important; 
+    color: white !important; 
+}
+.status-success { 
+    background-color: #27ae60 !important; 
+    color: white !important; 
+}
 
 .status-card { 
     color: white; 
