@@ -95,53 +95,114 @@ async function fetchConfig() {
 }
 
 // --- 4. 管理員頁面功能 ---
-function saveRegionSettings() {
+window.saveRegionSettings = function() {
     const selector = document.getElementById('region-selector');
     if (selector) {
-        const selectedRegion = selector.value;
-        localStorage.setItem('user_region', selectedRegion);
-        alert(`地區已成功設定為：${selectedRegion}`);
+        localStorage.setItem('user_region', selector.value);
+        alert(`地區已成功設定為：${selector.value}`);
         location.reload(); 
     }
-}
+};
 
-function logout() {
-    sessionStorage.removeItem('isAdmin');
-    sessionStorage.removeItem('adminName');
+window.logout = function() {
+    sessionStorage.clear();
     window.location.href = 'login.html';
-}
+};
 
-// --- 5. 事件監聽與初始化 ---
+// --- 2. 核心初始化邏輯 ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // 啟動時鐘
-    updateClock();
+    
+    // [時間更新]
+    const updateClock = () => {
+        const timeDisplay = document.getElementById('current-time');
+        if (timeDisplay) {
+            const now = new Date();
+            timeDisplay.innerText = now.toLocaleString('zh-TW', {
+                year: 'numeric', month: 'numeric', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
+            });
+        }
+    };
     setInterval(updateClock, 1000);
+    updateClock();
 
-    // 初始化圖表
-    initWeatherCharts();
-
-    // LED 切換功能 (首頁)
+    // [LED 切換 - 首頁]
     const led = document.getElementById('myLed');
     if (led) {
         led.onclick = () => led.classList.toggle('on');
     }
 
-    // --- 登入頁面邏輯 ---
+    // [登入邏輯處理 - 登入頁]
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
-        generateCaptcha();
-        document.getElementById('btn-refresh-captcha').onclick = generateCaptcha;
-        
-        // 密碼顯示切換
         const togglePass = document.getElementById('togglePassword');
         const passInput = document.getElementById('password');
-        if (togglePass && passInput) {
-            togglePass.onclick = () => {
-                const isPass = passInput.type === 'password';
-                passInput.type = isPass ? 'text' : 'password';
-                togglePass.innerText = isPass ? '🙈' : '👁️';
-            };
+        
+        // --- 修正：密碼可見性切換 ---
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                // 切換 type 屬性
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                // 切換圖示
+                this.innerText = isPassword ? '🙈' : '👁️';
+            });
         }
+
+        // 核心：使用 addEventListener 並阻止預設行為
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            const msgDisplay = document.getElementById('login-msg');
+            const usernameInput = document.getElementById('username');
+
+            // 取得 Config
+            let config;
+            try {
+                const response = await fetch('data/config.json');
+                if (!response.ok) throw new Error();
+                config = await response.json();
+                sessionStorage.setItem('globalConfig', JSON.stringify(config));
+            } catch (err) {
+                // 備用測試帳密
+                config = { admins: [{ username: "admin", password: "123", displayName: "管理員" }] };
+            }
+
+            const user = config.admins.find(u => 
+                u.username === usernameInput.value && 
+                String(u.password) === String(passInput.value)
+            );
+
+            if (user) {
+                sessionStorage.setItem('isAdmin', 'true');
+                sessionStorage.setItem('adminName', user.displayName);
+                window.location.href = 'admin.html'; // 確保執行跳轉
+            } else {
+                if (msgDisplay) {
+                    msgDisplay.innerText = "帳號或密碼錯誤！";
+                    msgDisplay.className = "error";
+                }
+                // 移除原有的 generateCaptcha 呼叫以免報錯
+            }
+        });
+    }
+
+    // [管理頁面初始化與安全檢查]
+    if (window.location.pathname.includes('admin.html')) {
+        if (sessionStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = 'login.html';
+        } else {
+            const adminName = sessionStorage.getItem('adminName') || '管理員';
+            const welcomeMsg = document.getElementById('admin-welcome');
+            if (welcomeMsg) welcomeMsg.innerText = `歡迎回來，${adminName}`;
+
+            const selector = document.getElementById('region-selector');
+            if (selector) {
+                selector.value = localStorage.getItem('user_region') || '臺北市';
+            }
+        }
+    }
+});
+    /*
 
         loginForm.onsubmit = async (e) => {
             e.preventDefault();
@@ -156,7 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 msgDisplay.className = "error";
                 generateCaptcha();
                 return;
-            }*/
+            }
 
             // 取得或讀取 Config
             let config = JSON.parse(sessionStorage.getItem('globalConfig'));
@@ -198,5 +259,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const selector = document.getElementById('region-selector');
             if (selector) selector.value = savedRegion;
         }
-    }
-});
+    }*/
+   
+
