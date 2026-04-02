@@ -83,33 +83,42 @@
             </div>
         </section>
         
-        <h2>農作物灌溉管理面板</h2>
-        <div class="card-grid" style="margin-top: 20px;">
-            <div class="info-card" style="text-align:center;">
-                <h3>灑水控制</h3>
-                <p style="margin: 10px 0; color:#7f8c8d;">灑水系統狀態：待命</p>
-                <button class="btn-water" style="background:var(--primary-color); color:white;">啟動灑水系統</button>
-            </div>
-            <div class="info-card" style="text-align:center;">
-                <h3>風散控制</h3>
-                <p style="margin: 10px 0; color:#7f8c8d;">風散系統狀態：待命</p>
-                <button class="btn-water" style="background:var(--primary-color); color:white;">啟動風散系統</button>
-            </div>
-        </div>
+        <section>
+            <h2>設備監控與定時設定</h2>
+            <div class="device-control-grid">
+                <div class="device-card" id="card-power">
+                    <div class="led-indicator" id="led-power"></div>
+                    <h3>電源系統</h3>
+                    <p class="timer-tag" id="timer-display-power">定時：未設定</p>
+                    <button class="btn-login" onclick="toggleDevice('power')">切換開關</button>
+                    <input type="time" onchange="setDeviceTimer('power', this.value)" style="margin-top:10px; width:80%;">
+                </div>
 
-        <!--設計定時灑水、排風(開關)-->
-        <div class="card-grid">
-            <div class="info-card">
-                <h3>電源系統 (日/夜間)</h3>
-                <div class="led" id="led-power"></div>
-                <button onclick="toggleDevice('power')" id="btn-power">啟動</button>
+                <div class="device-card" id="card-fan">
+                    <div class="led-indicator" id="led-fan"></div>
+                    <h3>風扇系統</h3>
+                    <p class="timer-tag" id="timer-display-fan">定時：未設定</p>
+                    <button class="btn-login" onclick="toggleDevice('fan')">切換開關</button>
+                    <input type="time" onchange="setDeviceTimer('fan', this.value)" style="margin-top:10px; width:80%;">
+                </div>
+
+                <div class="device-card" id="card-sprinkler">
+                    <div class="led-indicator" id="led-sprinkler"></div>
+                    <h3>灑水裝置</h3>
+                    <p class="timer-tag" id="timer-display-sprinkler">定時：未設定</p>
+                    <button class="btn-login" onclick="toggleDevice('sprinkler')">切換開關</button>
+                    <input type="time" onchange="setDeviceTimer('sprinkler', this.value)" style="margin-top:10px; width:80%;">
+                </div>
+
+                <div class="device-card" id="card-motor">
+                    <div class="led-indicator" id="led-motor"></div>
+                    <h3>馬達幫浦</h3>
+                    <p class="timer-tag" id="timer-display-motor">定時：未設定</p>
+                    <button class="btn-login" onclick="toggleDevice('motor')">切換開關</button>
+                    <input type="time" onchange="setDeviceTimer('motor', this.value)" style="margin-top:10px; width:80%;">
+                </div>
             </div>
-            <div class="info-card">
-                <h3>風扇系統 (排風)</h3>
-                <div class="led" id="led-fan"></div>
-                <button onclick="toggleDevice('fan')" id="btn-fan">啟動</button>
-            </div>
-        </div>
+        </section>
     </main>
 
     <script src="main.js"></script>

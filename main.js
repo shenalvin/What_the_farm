@@ -90,6 +90,82 @@ window.toggleDevice = function(devName) {
     updateDeviceUI();
 };
 
+// --- 模組：數據狀態處理 ---
+function updateDataDisplay(dataObj) {
+    // dataObj 格式範例: { soilTemp: 35, humidity: null }
+    const sensors = {
+        'soil-temp': { val: dataObj.soilTemp, threshold: 30, unit: '°C' },
+        'humidity': { val: dataObj.humidity, threshold: 50, unit: '%' }
+    };
+
+    for (let id in sensors) {
+        const el = document.getElementById(id);
+        const card = el?.closest('.info-card');
+        if (!el || !card) continue;
+
+        const sensor = sensors[id];
+        
+        if (sensor.val === null || sensor.val === undefined) {
+            // 無資料狀態
+            el.innerText = '--';
+            card.querySelector('.desc').innerText = '狀態：載入中...';
+            card.className = 'info-card status-card status-normal';
+        } else {
+            // 有資料：判定異常 (這裡你可以針對不同 ID 寫不同判斷式)
+            el.innerText = sensor.val + sensor.unit;
+            const isAbnormal = sensor.val > sensor.threshold; 
+            
+            card.querySelector('.desc').innerText = isAbnormal ? '狀態：異常' : '狀態：正常';
+            card.className = isAbnormal ? 'info-card status-card status-danger' : 'info-card status-card status-success';
+        }
+    }
+}
+
+// --- 模組：設備定時與開關 ---
+let deviceTimers = {};
+
+function toggleDevice(dev) {
+    const currentState = localStorage.getItem(`dev_${dev}`) === 'on';
+    const newState = currentState ? 'off' : 'on';
+    localStorage.setItem(`dev_${dev}`, newState);
+    refreshDeviceUI();
+}
+
+function setDeviceTimer(dev, timeValue) {
+    if (!timeValue) return;
+    localStorage.setItem(`timer_${dev}`, timeValue);
+    alert(`${dev} 已設定於 ${timeValue} 自動啟動`);
+    refreshDeviceUI();
+}
+
+function refreshDeviceUI() {
+    const devices = ['power', 'fan', 'sprinkler', 'motor'];
+    devices.forEach(dev => {
+        const state = localStorage.getItem(`dev_${dev}`) === 'on';
+        const timer = localStorage.getItem(`timer_${dev}`);
+        
+        const led = document.getElementById(`led-${dev}`);
+        const timerLabel = document.getElementById(`timer-display-${dev}`);
+        
+        if (led) led.className = `led-indicator ${state ? 'on' : 'off'}`;
+        if (timerLabel) timerLabel.innerText = timer ? `定時：${timer}` : '定時：未設定';
+    });
+}
+
+// 檢查定時任務 (每分鐘執行一次)
+setInterval(() => {
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    
+    ['power', 'fan', 'sprinkler', 'motor'].forEach(dev => {
+        const targetTime = localStorage.getItem(`timer_${dev}`);
+        if (targetTime === currentTime) {
+            localStorage.setItem(`dev_${dev}`, 'on'); // 時間到，強制開啟
+            refreshDeviceUI();
+        }
+    });
+}, 60000);
+
 // --- 2. 氣象圖表設定 ---
 function initWeatherCharts() {
     if (!document.getElementById('temp-north')) return;
@@ -176,30 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initDataDisplay();
     initAdvancedCharts();
     if (document.getElementById('admin-welcome')) updateDeviceUI();
-    /*
-    // [時間更新]
-    const updateClock = () => {
-        const timeDisplay = document.getElementById('current-time');
-        if (timeDisplay) {
-            const now = new Date();
-            timeDisplay.innerText = now.toLocaleString('zh-TW', {
-                year: 'numeric', month: 'numeric', day: 'numeric', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
-            });
-        }
-    };
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // [啟動圖表]
-    initWeatherCharts();
-
-    // [LED 切換 - 首頁]
-    const led = document.getElementById('myLed');
-    if (led) {
-        led.onclick = () => led.classList.toggle('on');
-    }
-    */
+    
     // [登入頁面邏輯]
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
